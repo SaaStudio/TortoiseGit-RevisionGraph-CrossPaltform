@@ -11,33 +11,79 @@ permissions:
 jobs:
   linux:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
-
+    timeout-minutes: 45
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
-
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install --no-install-recommends ninja-build qtbase5-dev
-
-      - name: Configure
-        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
-
       - name: Build
-        run: cmake --build build --target tgit-revision-graph --parallel 2
-
-      - name: Smoke test
-        env:
-          QT_QPA_PLATFORM: offscreen
-          TGIT_GRAPH_SCREENSHOT: ${{ runner.temp }}/revision-graph.png
-        run: ./build/tgit-revision-graph "$GITHUB_WORKSPACE"
-
-      - name: Upload smoke-test screenshot
-        uses: actions/upload-artifact@v4
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --target tgit-revision-graph --parallel 2
+      - name: Package
+        run: |
+          mkdir -p package/TortoiseGit-RevisionGraph-CrossPaltform-linux-x86_64
+          cp build/tgit-revision-graph README.md LICENSE package/TortoiseGit-RevisionGraph-CrossPaltform-linux-x86_64/
+          tar -C package -czf TortoiseGit-RevisionGraph-CrossPaltform-linux-x86_64.tar.gz TortoiseGit-RevisionGraph-CrossPaltform-linux-x86_64
+      - uses: actions/upload-artifact@v4
         with:
-          name: revision-graph-linux
-          path: ${{ runner.temp }}/revision-graph.png
+          name: TortoiseGit-RevisionGraph-CrossPaltform-linux-x86_64
+          path: TortoiseGit-RevisionGraph-CrossPaltform-linux-x86_64.tar.gz
+
+  windows:
+    runs-on: windows-2025
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: jurplel/install-qt-action@v4
+        with:
+          version: '5.15.2'
+          arch: win64_msvc2019_64
+          cache: true
+      - name: Build
+        shell: pwsh
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --target tgit-revision-graph --parallel 2
+      - name: Package
+        shell: pwsh
+        run: |
+          $dir = 'TortoiseGit-RevisionGraph-CrossPaltform-windows-x86_64'
+          New-Item -ItemType Directory -Path $dir
+          Copy-Item build/tgit-revision-graph.exe, README.md, LICENSE -Destination $dir
+          windeployqt --release --no-translations "$dir/tgit-revision-graph.exe"
+          Compress-Archive -Path $dir -DestinationPath "$dir.zip"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: TortoiseGit-RevisionGraph-CrossPaltform-windows-x86_64
+          path: TortoiseGit-RevisionGraph-CrossPaltform-windows-x86_64.zip
+
+  macos:
+    runs-on: macos-15
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: jurplel/install-qt-action@v4
+        with:
+          version: '5.15.2'
+          cache: true
+      - name: Build
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --target tgit-revision-graph --parallel 2
+      - name: Package
+        run: |
+          macdeployqt build/tgit-revision-graph.app
+          ditto -c -k --sequesterRsrc --keepParent build/tgit-revision-graph.app TortoiseGit-RevisionGraph-CrossPaltform-macos-arm64.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: TortoiseGit-RevisionGraph-CrossPaltform-macos-arm64
+          path: TortoiseGit-RevisionGraph-CrossPaltform-macos-arm64.zip

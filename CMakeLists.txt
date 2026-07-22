@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(tortoisegit-revision-graph-cross VERSION 0.1.0 LANGUAGES CXX)
+project(tortoisegit-revision-graph-crosspaltform VERSION 0.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -26,4 +26,13 @@ add_executable(tgit-revision-graph
 )
 
 target_link_libraries(tgit-revision-graph PRIVATE Qt5::Widgets OGDF)
+
+if(APPLE)
+    set_target_properties(tgit-revision-graph PROPERTIES
+        MACOSX_BUNDLE TRUE
+        MACOSX_BUNDLE_BUNDLE_NAME "TortoiseGit Revision Graph CrossPaltform"
+        MACOSX_BUNDLE_GUI_IDENTIFIER "org.tortoisegit.revisiongraph.crosspaltform"
+    )
+endif()
+
 install(TARGETS tgit-revision-graph RUNTIME DESTINATION bin)

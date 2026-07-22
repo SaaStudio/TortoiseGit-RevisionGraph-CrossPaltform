@@ -98,7 +98,7 @@ QIcon toolbarIcon(int index)
 
 MainWindow::MainWindow(const QString& initialPath, QWidget* parent) : QMainWindow(parent)
 {
-    setWindowTitle(QStringLiteral("TortoiseGit Revision Graph Cross"));
+    setWindowTitle(QStringLiteral("TortoiseGit Revision Graph CrossPaltform"));
     resize(1100, 760);
     m_scene = new QGraphicsScene(this);
     m_view = new GraphView(this);

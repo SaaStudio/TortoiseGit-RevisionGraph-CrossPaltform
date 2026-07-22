@@ -10,8 +10,8 @@
 int main(int argc, char* argv[])
 {
     QApplication app(argc, argv);
-    QApplication::setApplicationName(QStringLiteral("TortoiseGit Revision Graph Cross"));
-    QApplication::setOrganizationName(QStringLiteral("TortoiseGit Revision Graph Cross"));
+    QApplication::setApplicationName(QStringLiteral("TortoiseGit Revision Graph CrossPaltform"));
+    QApplication::setOrganizationName(QStringLiteral("TortoiseGit Revision Graph CrossPaltform"));
 
     const QString initialPath = app.arguments().size() > 1 ? app.arguments().at(1) : QDir::currentPath();
     MainWindow window(initialPath);

@@ -1,4 +1,4 @@
-# TortoiseGit Revision Graph Cross
+# TortoiseGit Revision Graph CrossPaltform
 
 Кроссплатформенная адаптация оригинального **Revision Graph из TortoiseGit**.
 Приложение сохраняет алгоритм построения и внешний вид оригинального графа,
