@@ -35,4 +35,7 @@ if(APPLE)
     )
 endif()
 
-install(TARGETS tgit-revision-graph RUNTIME DESTINATION bin)
+install(TARGETS tgit-revision-graph
+    RUNTIME DESTINATION bin
+    BUNDLE DESTINATION .
+)
