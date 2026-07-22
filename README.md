@@ -19,13 +19,21 @@
 
 | Платформа | Статус |
 |---|---|
-| Linux | Сборка и запуск проверены, работает GitHub Actions CI |
-| Windows | Код и система сборки рассчитаны на Windows, проверка ещё не выполнена |
-| macOS | Код и система сборки рассчитаны на macOS, проверка ещё не выполнена |
+| Linux x86_64 | Сборка и упаковка проверены в GitHub Actions |
+| Windows x86_64 | Нативная MSVC-сборка и упаковка с Qt DLL проверены в GitHub Actions |
+| macOS x86_64 | Нативная сборка `.app` и упаковка Qt frameworks проверены в GitHub Actions; на Apple Silicon запускается через Rosetta 2 |
 | Другие ОС с Qt 5 | Возможна сборка, официально не проверено |
 
-Кроссплатформенность относится к архитектуре и исходному коду. До появления CI
-для Windows и macOS подтверждённой платформой остаётся Linux.
+## Готовые сборки
+
+Готовые архивы находятся в каталоге [`dist`](dist):
+
+- Linux x86_64 — `tar.gz`;
+- Windows x86_64 — `zip` с исполняемым файлом и Qt DLL;
+- macOS x86_64 — `zip` с готовым `.app` и Qt frameworks.
+
+Для чтения репозитория приложению на любой ОС нужен установленный Git. Linux-
+сборке дополнительно нужен системный Qt 5 runtime.
 
 ## Требования
 
@@ -44,8 +52,8 @@ sudo apt install build-essential cmake ninja-build qtbase5-dev git
 ## Сборка
 
 ```bash
-git clone --recurse-submodules <URL-РЕПОЗИТОРИЯ>
-cd <КАТАЛОГ-РЕПОЗИТОРИЯ>
+git clone --recurse-submodules https://github.com/SaaStudio/TortoiseGit-RevisionGraph-CrossPaltform.git
+cd TortoiseGit-RevisionGraph-CrossPaltform
 cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
 cmake --build build --target tgit-revision-graph
 ```
