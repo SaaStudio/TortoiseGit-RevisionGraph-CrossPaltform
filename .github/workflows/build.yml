@@ -65,7 +65,7 @@ jobs:
           path: TortoiseGit-RevisionGraph-CrossPaltform-windows-x86_64.zip
 
   macos:
-    runs-on: macos-15
+    runs-on: macos-15-intel
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
@@ -82,8 +82,8 @@ jobs:
       - name: Package
         run: |
           macdeployqt build/tgit-revision-graph.app
-          ditto -c -k --sequesterRsrc --keepParent build/tgit-revision-graph.app TortoiseGit-RevisionGraph-CrossPaltform-macos-arm64.zip
+          ditto -c -k --sequesterRsrc --keepParent build/tgit-revision-graph.app TortoiseGit-RevisionGraph-CrossPaltform-macos-x86_64.zip
       - uses: actions/upload-artifact@v4
         with:
-          name: TortoiseGit-RevisionGraph-CrossPaltform-macos-arm64
-          path: TortoiseGit-RevisionGraph-CrossPaltform-macos-arm64.zip
+          name: TortoiseGit-RevisionGraph-CrossPaltform-macos-x86_64
+          path: TortoiseGit-RevisionGraph-CrossPaltform-macos-x86_64.zip
