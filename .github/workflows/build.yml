@@ -36,7 +36,7 @@ jobs:
 
   windows:
     runs-on: windows-2025
-    timeout-minutes: 60
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
         with:
@@ -46,17 +46,20 @@ jobs:
           version: '5.15.2'
           arch: win64_msvc2019_64
           cache: true
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
       - name: Build
         shell: pwsh
         run: |
-          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --target tgit-revision-graph --parallel 2
+          cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+          cmake --build build --config Release --target tgit-revision-graph --parallel 2
       - name: Package
         shell: pwsh
         run: |
           $dir = 'TortoiseGit-RevisionGraph-CrossPaltform-windows-x86_64'
           New-Item -ItemType Directory -Path $dir
-          Copy-Item build/tgit-revision-graph.exe, README.md, LICENSE -Destination $dir
+          Copy-Item build/Release/tgit-revision-graph.exe, README.md, LICENSE -Destination $dir
           windeployqt --release --no-translations "$dir/tgit-revision-graph.exe"
           Compress-Archive -Path $dir -DestinationPath "$dir.zip"
       - uses: actions/upload-artifact@v4
