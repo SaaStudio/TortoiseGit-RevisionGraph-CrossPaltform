@@ -35,7 +35,7 @@ jobs:
           path: TortoiseGit-RevisionGraph-CrossPaltform-linux-x86_64.tar.gz
 
   windows:
-    runs-on: windows-2025
+    runs-on: windows-2022
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
