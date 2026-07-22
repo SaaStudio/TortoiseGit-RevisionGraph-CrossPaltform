@@ -1,0 +1,46 @@
+name: Сообщение об ошибке
+description: Воспроизводимая проблема в Revision Graph
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Перед отправкой проверьте существующие issues и последнюю версию основной ветки.
+  - type: input
+    id: version
+    attributes:
+      label: Версия или commit
+      placeholder: Например, SHA commit
+    validations:
+      required: true
+  - type: input
+    id: system
+    attributes:
+      label: Система
+      placeholder: Дистрибутив, версия Qt, оконная система
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Шаги воспроизведения
+      placeholder: Перечислите точные действия и минимальный тестовый репозиторий.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Ожидаемое поведение
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Фактическое поведение
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Логи и снимки экрана
+      render: shell

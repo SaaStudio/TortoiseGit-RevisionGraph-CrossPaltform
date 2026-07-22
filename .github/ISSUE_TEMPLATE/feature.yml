@@ -1,0 +1,22 @@
+name: Предложение
+description: Улучшение read-only просмотрщика графа
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Какая проблема решается
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Предлагаемое решение
+    validations:
+      required: true
+  - type: textarea
+    id: upstream
+    attributes:
+      label: Поведение upstream TortoiseGit
+      description: Укажите, существует ли функция в оригинальном Revision Graph.

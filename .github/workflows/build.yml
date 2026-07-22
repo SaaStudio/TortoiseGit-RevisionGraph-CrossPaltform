@@ -1,0 +1,43 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  linux:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends ninja-build qtbase5-dev
+
+      - name: Configure
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --target tgit-revision-graph --parallel 2
+
+      - name: Smoke test
+        env:
+          QT_QPA_PLATFORM: offscreen
+          TGIT_GRAPH_SCREENSHOT: ${{ runner.temp }}/revision-graph.png
+        run: ./build/tgit-revision-graph "$GITHUB_WORKSPACE"
+
+      - name: Upload smoke-test screenshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: revision-graph-linux
+          path: ${{ runner.temp }}/revision-graph.png
