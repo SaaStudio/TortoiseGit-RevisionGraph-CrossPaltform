@@ -55,7 +55,7 @@ sudo apt install build-essential cmake ninja-build qtbase5-dev git
 git clone --recurse-submodules https://github.com/SaaStudio/TortoiseGit-RevisionGraph-CrossPaltform.git
 cd TortoiseGit-RevisionGraph-CrossPaltform
 cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
-cmake --build build --target tgit-revision-graph
+cmake --build build --target tgraph
 ```
 
 Если репозиторий уже клонирован без submodule:
@@ -67,7 +67,7 @@ git submodule update --init --recursive
 ## Запуск
 
 ```bash
-./build/tgit-revision-graph /путь/к/git-репозиторию
+./build/tgraph /путь/к/git-репозиторию
 ```
 
 Без аргумента приложение открывает репозиторий из текущего каталога.

@@ -8,7 +8,7 @@
 ```bash
 git clone --recurse-submodules <URL-РЕПОЗИТОРИЯ>
 cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
-cmake --build build --target tgit-revision-graph
+cmake --build build --target tgraph
 ```
 
 ## Правила изменений

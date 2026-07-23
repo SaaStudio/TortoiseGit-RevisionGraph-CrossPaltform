@@ -14,7 +14,7 @@ set(OGDF_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(OGDF_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(third_party/ogdf EXCLUDE_FROM_ALL)
 
-add_executable(tgit-revision-graph
+add_executable(tgraph
     src/main.cpp
     src/mainwindow.cpp
     src/mainwindow.h
@@ -25,17 +25,17 @@ add_executable(tgit-revision-graph
     assets/assets.qrc
 )
 
-target_link_libraries(tgit-revision-graph PRIVATE Qt5::Widgets OGDF)
+target_link_libraries(tgraph PRIVATE Qt5::Widgets OGDF)
 
 if(APPLE)
-    set_target_properties(tgit-revision-graph PROPERTIES
+    set_target_properties(tgraph PROPERTIES
         MACOSX_BUNDLE TRUE
         MACOSX_BUNDLE_BUNDLE_NAME "TortoiseGit Revision Graph CrossPaltform"
         MACOSX_BUNDLE_GUI_IDENTIFIER "org.tortoisegit.revisiongraph.crosspaltform"
     )
 endif()
 
-install(TARGETS tgit-revision-graph
+install(TARGETS tgraph
     RUNTIME DESTINATION bin
     BUNDLE DESTINATION .
 )

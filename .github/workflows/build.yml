@@ -23,11 +23,11 @@ jobs:
       - name: Build
         run: |
           cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --target tgit-revision-graph --parallel 2
+          cmake --build build --target tgraph --parallel 2
       - name: Package
         run: |
           mkdir -p package/TortoiseGit-RevisionGraph-CrossPaltform-linux-x86_64
-          cp build/tgit-revision-graph README.md LICENSE package/TortoiseGit-RevisionGraph-CrossPaltform-linux-x86_64/
+          cp build/tgraph README.md LICENSE package/TortoiseGit-RevisionGraph-CrossPaltform-linux-x86_64/
           tar -C package -czf TortoiseGit-RevisionGraph-CrossPaltform-linux-x86_64.tar.gz TortoiseGit-RevisionGraph-CrossPaltform-linux-x86_64
       - uses: actions/upload-artifact@v4
         with:
@@ -53,14 +53,14 @@ jobs:
         shell: pwsh
         run: |
           cmake -S . -B build -G "Visual Studio 17 2022" -A x64
-          cmake --build build --config Release --target tgit-revision-graph --parallel 2
+          cmake --build build --config Release --target tgraph --parallel 2
       - name: Package
         shell: pwsh
         run: |
           $dir = 'TortoiseGit-RevisionGraph-CrossPaltform-windows-x86_64'
           New-Item -ItemType Directory -Path $dir
-          Copy-Item build/Release/tgit-revision-graph.exe, README.md, LICENSE -Destination $dir
-          windeployqt --release --no-translations "$dir/tgit-revision-graph.exe"
+          Copy-Item build/Release/tgraph.exe, README.md, LICENSE -Destination $dir
+          windeployqt --release --no-translations "$dir/tgraph.exe"
           Compress-Archive -Path $dir -DestinationPath "$dir.zip"
       - uses: actions/upload-artifact@v4
         with:
@@ -81,11 +81,11 @@ jobs:
       - name: Build
         run: |
           cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --target tgit-revision-graph --parallel 2
+          cmake --build build --target tgraph --parallel 2
       - name: Package
         run: |
-          macdeployqt build/tgit-revision-graph.app
-          ditto -c -k --sequesterRsrc --keepParent build/tgit-revision-graph.app TortoiseGit-RevisionGraph-CrossPaltform-macos-x86_64.zip
+          macdeployqt build/tgraph.app
+          ditto -c -k --sequesterRsrc --keepParent build/tgraph.app TortoiseGit-RevisionGraph-CrossPaltform-macos-x86_64.zip
       - uses: actions/upload-artifact@v4
         with:
           name: TortoiseGit-RevisionGraph-CrossPaltform-macos-x86_64
